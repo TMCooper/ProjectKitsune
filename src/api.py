@@ -17,12 +17,12 @@ class Yui:
     
     @app.route('/api/getinfoByid', methods=["GET"])
     def getinfo_byid():
-        # format : /api/getAnimeSearch?id=Frieren
-        id = request.args.get("id", "").strip()
-        if not id:
+        # format : /api/getinfoByid?id=52991
+        anime_id = request.args.get("id", "").strip()
+        if not anime_id:
             return jsonify({"error": "Paramètre 'id' manquant"}), 400
         
-        url, title, title_english, title_japanese, episodes_number, status, rating, rank, popularity, favorites, season, synopsis, background, studios_name, genres_name, image_jpg, image_jpg_small, image_jpg_big = Cardinal.getinfo_byid(id)
+        url, title, title_english, title_japanese, episodes_number, status, rating, rank, popularity, favorites, season, synopsis, background, studios_name, genres_name, image_jpg, image_jpg_small, image_jpg_big = Cardinal.getinfo_byid(anime_id)
 
         return jsonify({
             'anime_url' : url,
@@ -51,7 +51,7 @@ class Yui:
     
     @app.route('/api/getAnimeSearch', methods=["GET"])
     def getAnimeSearch():
-        # Récupère la query de l’utilisateur : /api/getAnimeSearch?q=Frieren
+        # Récupère la query de l’utilisateur : /api/getAnimeSearch?q=Frieren&l=1
         query = request.args.get("q", "").strip()
         limit = request.args.get("l", "").strip()
         if not query:
@@ -73,8 +73,8 @@ class Yui:
             return jsonify({"error": "Paramètre 'q' manquant"}), 400
         
         reponse = requests.get(f"http://127.0.0.1:5000/api/getAnimeSearch?q={query}&l=1").json()
-        id = reponse[0]["id"]
+        anime_id = reponse[0]["id"]
 
-        anime_info = requests.get(f"http://127.0.0.1:5000/api/getinfoByid?q={id}")
+        anime_info = requests.get(f"http://127.0.0.1:5000/api/getinfoByid?id={anime_id}").json()
 
         return jsonify(anime_info)
