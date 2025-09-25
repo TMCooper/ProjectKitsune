@@ -65,7 +65,7 @@ class Yui:
 
         return jsonify(results)
     
-    @app.route('/api/NameToInfo', methods=["GET"])
+    @app.route('/api/getAnimeNameToInfo', methods=["GET"])
     def nametoinfo():
         # Récupère la query de l’utilisateur : /api/NameToInfo?q=Frieren
         query = request.args.get("q", "").strip()
@@ -78,3 +78,19 @@ class Yui:
         anime_info = requests.get(f"http://127.0.0.1:5000/api/getinfoByid?id={anime_id}").json()
 
         return jsonify(anime_info)
+    
+    @app.route('/api/getUserList', methods=["GET"])    
+    def getUserList():
+        # u = Nom myanimelist de l'utilisateur obligatoire
+        pseudo = request.args.get("u", "").strip()
+        # s = status des animer a récuperer 1 à 7 par défault il est a 2 (complété) regarder la fonction getUserList dans la class Cardinal du fichier backend.py
+        status = request.args.get("s", "").strip()
+
+        if not pseudo:
+            return jsonify({"error": "Paramètre 'u' manquant"})
+        
+        anime_ids = Cardinal.getUserList(pseudo, status)
+
+        results = Cardinal.NameFinder(anime_ids)
+
+        return jsonify(results)

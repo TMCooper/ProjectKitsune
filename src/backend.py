@@ -57,7 +57,12 @@ class Cardinal:
 
                     for anime in data["data"]:
                         if anime["mal_id"] not in seen_ids:  # filtrage
-                            anime_info = {"id": anime["mal_id"], "title": anime["title"]}
+                            anime_info = {
+                                "id": anime["mal_id"], 
+                                "title": anime["title"], 
+                                "title_english" : anime.get("title_english"),
+                                "title_japanese" : anime.get("title_japanese")
+                                }
                             anime_list.append(anime_info)
                             seen_ids.add(anime["mal_id"])
                             print(anime_info)
@@ -85,9 +90,6 @@ class Cardinal:
 
         with open("AllAnimeId.json", "w", encoding="utf-8") as f:
             json.dump(anime_list, f, ensure_ascii=False, indent=4)
-
-        # def getAllid():
-    #     return 
 
     def clean_string(text):
         """Une fonction pour nettoyer et normaliser une chaîne de caractères."""
@@ -124,7 +126,6 @@ class Cardinal:
 
         temp_results = []
         
-        # --- LA CORRECTION EST ICI ---
         # La boucle DOIT accepter 3 valeurs. On ignore l'index avec `_`.
         for cleaned_title, score, _ in matches:
             if score < 75:
@@ -166,3 +167,42 @@ class Cardinal:
                 seen_ids.add(res["id"])
                 
         return final_results
+    
+    def getUserList(user, status=2):
+        
+        # Status variation de 1 a 7
+        # 1 = Watching
+        # 2 = Completed
+        # 3 = On-Hold
+        # 4 = Dropped
+        # 6 = Plan to Watch
+        # 7 = All anime
+
+        reponse = requests.get(f"https://myanimelist.net/animelist/{user}/load.json?status={status}").json()
+
+        anime_id = [anime["anime_id"] for anime in reponse]
+
+        return anime_id
+    
+    def NameFinder(anime_ids):
+
+        with open("AllAnimeId.json", "r", encoding="utf-8") as f:
+                all_animes_data = json.load(f)
+
+        results = []
+        
+        anime_map = {anime["id"]: anime for anime in all_animes_data}
+        
+        for aid in anime_ids:
+
+            anime_info = anime_map.get(aid)
+
+            if anime_info:
+                results.append({
+                    "anime_id": anime_info["id"],
+                    "title_english": anime_info["title_english"],
+                    "title_japanese": anime_info["title_japanese"],
+                    "title": anime_info["title"]
+                })
+
+        return results
