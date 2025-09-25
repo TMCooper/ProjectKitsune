@@ -2,6 +2,7 @@
 
 ## Route disponible
     @app.route('/api/topanime')
+    # Retourne un json avec le top anime du moment 
     
     @app.route('/api/getinfoByid', methods=["GET"])
     # format : /api/getinfoByid?id=52991
@@ -17,3 +18,7 @@
     @app.route('/api/NameToInfo', methods=["GET"])
     # Récupère la query de l’utilisateur : /api/NameToInfo?q=Frieren
     # retourne les information complete d'un animer mais ici pas besoins de connaitre l'id le system fait la jonction automatiquement entre le nom et l'id de celui ci affin que en une seul requete l'animer le plus probable sois renvoier avec toute ses informations de base
+
+    ## Thanks to
+    Jikan Api
+    Myanimelistapi
