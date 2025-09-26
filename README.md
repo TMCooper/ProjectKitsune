@@ -24,5 +24,5 @@ Le script pour télécharger les opening de la watchlist de myanime list est dis
     # Récupère la query de l’utilisateur : /api/NameToInfo?q=Frieren
     # retourne les information complete d'un animer mais ici pas besoins de connaitre l'id le system fait la jonction automatiquement entre le nom et l'id de celui ci affin que en une seul requete l'animer le plus probable sois renvoier avec toute ses informations de base
 
-    ## Thanks to
-    [Jikan Api](https://jikan.moe)
+## Thanks to
+[Jikan Api](https://jikan.moe)
