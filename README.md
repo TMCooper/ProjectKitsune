@@ -1,5 +1,10 @@
 # ProjectKitsune
 
+## Script Opening
+>[!NOTE]>Dans le cas des téléchargement dépassant les 177 environs prenez en compte que le script peut couper a cause de youtube dans se cas la attendez une petite heur puis relancer le même script et laissez le faire de nouveau
+
+Le script pour télécharger les opening de la watchlist de myanime list est disponible (ici)[../opening_downloader/main.py] prenez en compte néanmoins que celui ci a besoins de son prore environement ainsi que l'(api)[main.py] sois lancer
+
 ## Route disponible
     @app.route('/api/topanime')
     # Retourne un json avec le top anime du moment 
@@ -20,5 +25,4 @@
     # retourne les information complete d'un animer mais ici pas besoins de connaitre l'id le system fait la jonction automatiquement entre le nom et l'id de celui ci affin que en une seul requete l'animer le plus probable sois renvoier avec toute ses informations de base
 
     ## Thanks to
-    Jikan Api
-    Myanimelistapi
+    (Jikan Api)[https://jikan.moe]
