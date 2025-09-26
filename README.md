@@ -1,7 +1,8 @@
 # ProjectKitsune
 
 ## Script Opening
->[!NOTE]>Dans le cas des téléchargement dépassant les 177 environs prenez en compte que le script peut couper a cause de youtube dans se cas la attendez une petite heur puis relancer le même script et laissez le faire de nouveau
+>[!IMPORTANT]
+>Dans le cas des téléchargement dépassant les 177 environs prenez en compte que le script peut couper a cause de youtube dans se cas la attendez une petite heur puis relancer le même script et laissez le faire de nouveau
 
 Le script pour télécharger les opening de la watchlist de myanime list est disponible [ici](../opening_downloader/main.py) prenez en compte néanmoins que celui ci a besoins de son prore environement ainsi que l'[api](main.py) sois lancer
 
