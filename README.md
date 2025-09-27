@@ -1,10 +1,8 @@
 # ProjectKitsune
 
 ## Script Opening
->[!IMPORTANT]
->Dans le cas des téléchargement dépassant les 177 environs prenez en compte que le script peut couper a cause de youtube dans se cas la attendez une petite heur puis relancer le même script et laissez le faire de nouveau
 
-Le script pour télécharger les opening de la watchlist de myanime list est disponible [ici](../opening_downloader/main.py) prenez en compte néanmoins que celui ci a besoins de son prore environement ainsi que l'[api](main.py) sois lancer
+Le script pour télécharger les opening de la watchlist de myanimelist est disponible [ici](../opening_downloader/main.py) mais il faut que l'[api](main.py) sois lancer
 
 ## Route disponible
     @app.route('/api/topanime')
@@ -24,6 +22,16 @@ Le script pour télécharger les opening de la watchlist de myanime list est dis
     @app.route('/api/NameToInfo', methods=["GET"])
     # Récupère la query de l’utilisateur : /api/NameToInfo?q=Frieren
     # retourne les information complete d'un animer mais ici pas besoins de connaitre l'id le system fait la jonction automatiquement entre le nom et l'id de celui ci affin que en une seul requete l'animer le plus probable sois renvoier avec toute ses informations de base
+
+
+    @app.route('/api/getUserList', methods=["GET"])    
+    # Format : /api/getUserList?u={user}
+        # u = Nom myanimelist de l'utilisateur obligatoire
+        # s = status des animer a récuperer 1 à 7 par défault il est a 2 (complété) regarder (ici)[../doc/ApiDoc.md]
+
+## Coming Soon
+
+[ ] Ajouter une option au démarage du mains de l'opening downloader pour demander se si l'utilisateur désire avoir autre chose que uniquement les animer completé
 
 ## Thanks to
 [Jikan Api](https://jikan.moe)
