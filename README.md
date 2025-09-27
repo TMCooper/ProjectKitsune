@@ -4,6 +4,9 @@
 
 Le script pour télécharger les opening de la watchlist de myanimelist est disponible [ici](../opening_downloader/main.py) mais il faut que l'[api](main.py) sois lancer
 
+>[!WARNING]
+>Petite précision importante ! le main situer dans opening downloader dois être lancer en administrateur se mains [ci](/opening_downloader/main.py) pour des raison de modification proxy sur windows celui ci a besoins des permisions précisement la ligne 21 et 43 [ici](/opening_downloader/function/Yui.py)
+
 ## Route disponible
     @app.route('/api/topanime')
     # Retourne un json avec le top anime du moment 
