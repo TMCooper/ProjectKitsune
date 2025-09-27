@@ -31,7 +31,7 @@ Le script pour télécharger les opening de la watchlist de myanimelist est disp
 
 ## Coming Soon
 
-[ ] Ajouter une option au démarage du mains de l'opening downloader pour demander se si l'utilisateur désire avoir autre chose que uniquement les animer completé
+- [ ] Ajouter une option au démarage du mains de l'opening downloader pour demander se si l'utilisateur désire avoir autre chose que uniquement les animer completé
 
 ## Thanks to
 [Jikan Api](https://jikan.moe)
