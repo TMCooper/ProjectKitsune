@@ -1,4 +1,5 @@
 import requests, json, time, re
+from deep_translator import GoogleTranslator
 from rapidfuzz import process, fuzz
 
 class Cardinal:
@@ -61,7 +62,9 @@ class Cardinal:
                                 "id": anime["mal_id"], 
                                 "title": anime["title"], 
                                 "title_english" : anime.get("title_english"),
-                                "title_japanese" : anime.get("title_japanese")
+                                "title_japanese" : anime.get("title_japanese"),
+                                "image_jpg": anime.get("images", {}).get("jpg", {}).get("image_url"),
+                                # "image_jpg_small": anime.get("images", {}).get("jpg", {}).get("small_image_url")
                                 }
                             anime_list.append(anime_info)
                             seen_ids.add(anime["mal_id"])
@@ -118,6 +121,8 @@ class Cardinal:
         # Utilisation de dictionnaires pour garantir l'unicité
         cleaned_to_original_map = {clean_string(anime.get("title")): anime.get("title") for anime in animes_data if anime.get("title")}
         cleaned_to_id_map = {clean_string(anime.get("title")): anime.get("id") for anime in animes_data if anime.get("title")}
+        cleaned_to_image_map = {clean_string(anime.get("title")): anime.get("image_jpg") for anime in animes_data if anime.get("title")}
+        # cleaned_to_image_map = {clean_string(anime.get("title")): anime.get("image_jpg_small") for anime in animes_data if anime.get("title")}
         
         cleaned_titles = list(cleaned_to_original_map.keys())
 
@@ -143,11 +148,13 @@ class Cardinal:
 
             original_title = cleaned_to_original_map.get(cleaned_title)
             anime_id = cleaned_to_id_map.get(cleaned_title)
+            image_url = cleaned_to_image_map.get(cleaned_title)
 
             if original_title and anime_id:
                 temp_results.append({
                     "title": original_title,
                     "id": anime_id,
+                    "image_jpg" : image_url,
                     "final_score": final_score
                 })
 
@@ -274,5 +281,16 @@ class Cardinal:
                 "url": anime.get("url")
             })
                 
-
         return results
+    
+    def translate_text(text, target_lang='fr'):
+        """Traduit un texte vers une langue cible."""
+        if not text:
+            return ""
+        try:
+            # On peut aussi utiliser 'deepl', 'pons', etc. si configuré.
+            translated = GoogleTranslator(source='auto', target=target_lang).translate(text)
+            return translated
+        except Exception as e:
+            print(f"Erreur de traduction : {e}")
+            return "La traduction a échoué."

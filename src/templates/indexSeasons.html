@@ -4,16 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Animés par Saison</title>
-    <!-- On lie le nouveau fichier CSS -->
+    <!-- Inclusion des styles -->
+    <link rel="stylesheet" href="../static/css/shared.css">
     <link rel="stylesheet" href="../static/indexSeasons.css">
 </head>
 <body>
 
-    <header>
-        <div class="container">
-            <h1>🌸 Animés par Saison</h1>
-            <p>Explorez les animés saison par saison.</p>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="/home" class="nav-brand">Yui API</a>
+            <ul class="nav-menu">
+                <li><a href="/home" class="nav-link">Accueil</a></li>
+                <li><a href="/home/DailyAnime" class="nav-link">Planning du Jour</a></li>
+                <li><a href="/home/seasonsRender" class="nav-link active">Animés par Saison</a></li>
+                <li><a href="/home/search" class="nav-link">Recherche</a></li>
+            </ul>
         </div>
+    </nav>
+
+    <header>
+        <h1>🌸 Animés par Saison</h1>
+        <p>Explorez les animés saison par saison.</p>
     </header>
     
     <main class="container">
@@ -62,8 +73,6 @@
         </div>
     </footer>
     
-    <!-- On appelle le script externe à la fin -->
     <script src="../static/scripts/scriptSeasons.js" defer></script>
-
 </body>
 </html>

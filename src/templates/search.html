@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recherche d'Animé - Yui API</title>
+    <!-- Styles partagés et spécifiques -->
+    <link rel="stylesheet" href="../static/css/shared.css">
+    <link rel="stylesheet" href="../static/css/search.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="/home" class="nav-brand">Yui API</a>
+            <ul class="nav-menu">
+                <li><a href="/home" class="nav-link">Accueil</a></li>
+                <li><a href="/home/DailyAnime" class="nav-link">Planning du Jour</a></li>
+                <li><a href="/home/seasonsRender" class="nav-link">Animés par Saison</a></li>
+                <li><a href="/home/search" class="nav-link active">Recherche</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header>
+        <h1>🔍 Recherche d'Animé</h1>
+        <p>Trouvez des informations détaillées sur votre animé favori.</p>
+    </header>
+
+    <main class="container">
+        <!-- Section de la barre de recherche -->
+        <div class="search-wrapper">
+            <input type="text" id="anime-search-input" placeholder="Entrez le nom d'un animé (ex: Frieren, Naruto...)" autocomplete="off">
+            <!-- Le conteneur pour les suggestions dynamiques -->
+            <div id="suggestions-container"></div>
+        </div>
+
+        <!-- Section pour afficher les détails de l'animé sélectionné -->
+        <div id="anime-details-container">
+            <div class="placeholder-text">
+                <p>Les informations sur l'animé que vous avez sélectionné s'afficheront ici.</p>
+            </div>
+        </div>
+        
+        <!-- Indicateur de chargement pour les détails -->
+        <div id="loader" class="loader hidden"></div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Recherche propulsée par l'API Jikan et MyAnimeList.</p>
+        </div>
+    </footer>
+
+    <script src="../static/scripts/scriptSearch.js"></script>
+</body>
+</html>

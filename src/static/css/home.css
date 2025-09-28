@@ -1,0 +1,35 @@
+/* static/css/home.css */
+
+.app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.app-card {
+    background-color: var(--card-bg-color);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    color: var(--text-color);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.app-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    color: var(--primary-color);
+}
+
+.app-card h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+
+.app-card p {
+    font-size: 1rem;
+    color: #6a7c92;
+}

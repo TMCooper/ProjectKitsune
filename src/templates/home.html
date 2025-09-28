@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yui API - Accueil</title>
+    <!-- Le style partagé DOIT être inclus en premier -->
+    <link rel="stylesheet" href="../static/css/shared.css">
+    <!-- Le style spécifique à cette page -->
+    <link rel="stylesheet" href="../static/css/home.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="/home" class="nav-brand">Yui API</a>
+            <ul class="nav-menu">
+                <li><a href="/home" class="nav-link active">Accueil</a></li>
+                <li><a href="/home/DailyAnime" class="nav-link">Planning du Jour</a></li>
+                <li><a href="/home/seasonsRender" class="nav-link">Animés par Saison</a></li>
+                <li><a href="/home/search" class="nav-link">Recherche</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header>
+        <h1>Bienvenue sur le portail de Yui API</h1>
+        <p>Explorez les différentes applications disponibles.</p>
+    </header>
+
+    <main class="container">
+        <section class="app-grid">
+            
+            <a href="/home/DailyAnime" class="app-card">
+                <h2>📅 Planning du Jour</h2>
+                <p>Découvrez les animés diffusés chaque jour de la semaine.</p>
+            </a>
+            
+            <a href="/home/seasonsRender" class="app-card">
+                <h2>🌸 Animés par Saison</h2>
+                <p>Recherchez et filtrez les animés par année, saison et type.</p>
+            </a>
+
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Projet développé pour les passionnés d'animation.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

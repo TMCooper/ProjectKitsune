@@ -131,3 +131,24 @@ class Yui:
     @app.route('/home/DailyAnime')
     def DailyAnimeRender():
         return render_template('indexDailyAnime.html')
+    
+    @app.route('/home') # ou @app.route('/') si vous voulez que ce soit la racine
+    def homeRender():
+        return render_template('home.html')
+    
+    @app.route('/home/search')
+    def searchRender():
+        return render_template('search.html')
+    
+    @app.route('/api/translate', methods=['POST'])
+    def translate_text_route():
+        data = request.get_json()
+        text_to_translate = data.get('text')
+        target_language = data.get('target', 'fr') # 'fr' par défaut
+
+        if not text_to_translate:
+            return jsonify({"error": "Paramètre 'text' manquant"}), 400
+
+        translated_text = Cardinal.translate_text(text_to_translate, target_language)
+
+        return jsonify({"translated_text": translated_text})
