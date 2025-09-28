@@ -64,7 +64,6 @@ class Cardinal:
                                 "title_english" : anime.get("title_english"),
                                 "title_japanese" : anime.get("title_japanese"),
                                 "image_jpg": anime.get("images", {}).get("jpg", {}).get("image_url"),
-                                # "image_jpg_small": anime.get("images", {}).get("jpg", {}).get("small_image_url")
                                 }
                             anime_list.append(anime_info)
                             seen_ids.add(anime["mal_id"])
@@ -122,7 +121,6 @@ class Cardinal:
         cleaned_to_original_map = {clean_string(anime.get("title")): anime.get("title") for anime in animes_data if anime.get("title")}
         cleaned_to_id_map = {clean_string(anime.get("title")): anime.get("id") for anime in animes_data if anime.get("title")}
         cleaned_to_image_map = {clean_string(anime.get("title")): anime.get("image_jpg") for anime in animes_data if anime.get("title")}
-        # cleaned_to_image_map = {clean_string(anime.get("title")): anime.get("image_jpg_small") for anime in animes_data if anime.get("title")}
         
         cleaned_titles = list(cleaned_to_original_map.keys())
 

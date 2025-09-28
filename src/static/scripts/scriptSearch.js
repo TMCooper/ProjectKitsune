@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const suggestions = await response.json();
             
             // DEBUG: Vérifie ce que retourne l'API
-            console.log("Données reçues de l'API:", suggestions);
+            // console.log("Données reçues de l'API:", suggestions);
             
             // Vérifie chaque anime individuellement
             suggestions.forEach((anime, index) => {
@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // MODIFIÉ : Fonction d'affichage des suggestions
     function displaySuggestions(suggestions) {
         suggestionsContainer.innerHTML = '';
         if (suggestions.length === 0) {
@@ -62,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const item = document.createElement('div');
             item.className = 'suggestion-item';
 
-            // MODIFIÉ : On utilise maintenant "anime.image_jpg_small"
             const imageHtml = anime.image_jpg 
                 ? `<img src="${anime.image_jpg}" alt="${anime.title}" class="suggestion-image">`
                 : '<div class="suggestion-image-placeholder"></div>';
@@ -87,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchDetails(animeId) {
         detailsContainer.innerHTML = ''; 
         loader.classList.remove('hidden');
-        // MODIFIÉ : Réinitialiser le style du conteneur
+
         detailsContainer.style.backgroundImage = 'none';
         detailsContainer.classList.remove('has-background');
 
@@ -104,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // MODIFIÉ : Fonction pour afficher la fiche détaillée avec le nouveau layout en 2 colonnes
     function displayDetails(anime) {
         const genres = anime.genres_name.map(g => `<span class="tag">${g}</span>`).join('');
         const studios = anime.studios_name.map(s => `<span class="tag">${s}</span>`).join('');
