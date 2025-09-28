@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animés par Saison</title>
+    <!-- On lie le nouveau fichier CSS -->
+    <link rel="stylesheet" href="../static/indexSeasons.css">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>🌸 Animés par Saison</h1>
+            <p>Explorez les animés saison par saison.</p>
+        </div>
+    </header>
+    
+    <main class="container">
+        <!-- Formulaire de sélection -->
+        <form id="season-form">
+            <div class="form-group">
+                <label for="year">Année</label>
+                <input type="number" id="year" value="2025" min="1990" max="2100">
+            </div>
+            <div class="form-group">
+                <label for="season">Saison</label>
+                <select id="season">
+                    <option value="printemps">Printemps</option>
+                    <option value="ete">Été</option>
+                    <option value="automne">Automne</option>
+                    <option value="hiver">Hiver</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="type">Type</label>
+                <select id="type">
+                    <option value="tv">TV</option>
+                    <option value="movie">Film</option>
+                    <option value="ova">OVA</option>
+                    <option value="special">Special</option>
+                    <option value="ona">ONA</option>
+                    <option value="music">Music</option>
+                </select>
+            </div>
+            <button type="submit">Rechercher</button>
+        </form>
+
+        <!-- Conteneur pour les résultats, loader et messages d'erreur -->
+        <div id="loader" class="hidden"></div>
+        <div id="error-message" class="hidden error-box">
+            <p>❌ Erreur lors du chargement des données. Veuillez réessayer.</p>
+        </div>
+        <div id="anime-container" class="anime-grid">
+            <!-- Les cartes d'animés seront injectées ici -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Un outil simple pour les passionnés d'animation.</p>
+        </div>
+    </footer>
+    
+    <!-- On appelle le script externe à la fin -->
+    <script src="../static/scripts/scriptSeasons.js" defer></script>
+
+</body>
+</html>

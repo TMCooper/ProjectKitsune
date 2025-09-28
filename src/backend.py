@@ -206,3 +206,73 @@ class Cardinal:
                 })
 
         return results
+    
+    def getCurrentOut(day):
+        results = []
+        # Table de correspondance
+        jours_mapping = {
+            "lundi": "monday",
+            "mardi": "tuesday",
+            "mercredi": "wednesday",
+            "jeudi": "thursday",
+            "vendredi": "friday",
+            "samedi": "saturday",
+            "dimanche": "sunday"
+        }
+        
+        if day not in jours_mapping:
+            return results 
+
+        if day in jours_mapping : 
+            reponse = requests.get(f"https://api.jikan.moe/v4/schedules?filter={jours_mapping[day]}&kids=false&sfw=false").json()
+        
+        for anime in reponse.get("data", []):
+            results.append({
+                "studios_name": [studio.get("name") for studio in anime.get("studios", [])],
+                "genres_name": [genre.get("name") for genre in anime.get("genres", [])],
+                "image_jpg": anime.get("images", {}).get("jpg", {}).get("image_url"),
+                "image_jpg_small": anime.get("images", {}).get("jpg", {}).get("small_image_url"),
+                "image_jpg_big": anime.get("images", {}).get("jpg", {}).get("large_image_url"),
+                "episodes_number": anime.get("episodes"),
+                "status": anime.get("status"),
+                "rating": anime.get("rating"),
+                "rank": anime.get("rank"),
+                "mal_id": anime.get("mal_id"),
+                "title": anime.get("title"),
+                "url": anime.get("url")
+            })
+
+        return results
+    
+    def getSeasons(seasons, year, type="tv"):
+        results = []
+
+        saisons_mapping = {
+            "hiver": "winter",
+            "printemps": "spring",
+            "été": "summer",
+            "ete": "summer",  # pour éviter les problèmes avec l'accent
+            "automne": "fall"
+        }
+    
+        if seasons in saisons_mapping:
+            reponse = requests.get(f"https://api.jikan.moe/v4/seasons/{year}/{saisons_mapping[seasons]}?filter={type}").json()
+
+        for anime in reponse.get("data", []):
+            results.append({
+                "studios_name": [studio.get("name") for studio in anime.get("studios", [])],
+                "genres_name": [genre.get("name") for genre in anime.get("genres", [])],
+                "image_jpg": anime.get("images", {}).get("jpg", {}).get("image_url"),
+                "image_jpg_small": anime.get("images", {}).get("jpg", {}).get("small_image_url"),
+                "image_jpg_big": anime.get("images", {}).get("jpg", {}).get("large_image_url"),
+                "episodes_number": anime.get("episodes"),
+                "status": anime.get("status"),
+                "rating": anime.get("rating"),
+                "rank": anime.get("rank"),
+                "mal_id": anime.get("mal_id"),
+                "title": anime.get("title"),
+                "url": anime.get("url")
+            })
+                
+
+        return results

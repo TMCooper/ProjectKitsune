@@ -1,0 +1,203 @@
+/* --- Variables et Style de Base --- */
+:root {
+    --primary-color: #38b2ac;
+    --secondary-color: #64d2cf;
+    --background-color: #f7fafc;
+    --card-bg-color: #ffffff;
+    --text-color: #2d3748;
+    --light-text-color: #ffffff;
+    --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    --border-radius: 12px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    margin: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- En-tête (Header) --- */
+header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--light-text-color);
+    padding: 40px 0;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+/* --- Formulaire --- */
+#season-form {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 20px;
+    padding: 30px;
+    background: var(--card-bg-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+select, input {
+    padding: 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #fff;
+}
+
+select:focus, input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+button[type="submit"] {
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button[type="submit"]:hover {
+    background-color: #2c7a7b;
+    transform: translateY(-2px);
+}
+
+
+/* --- Grille d'Animés --- */
+.anime-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.anime-card {
+    background: var(--card-bg-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.anime-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.anime-card img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+}
+
+.anime-card-content {
+    padding: 15px;
+    flex-grow: 1;
+}
+
+.anime-title {
+    font-size: 1.15rem;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    color: #34495e;
+}
+
+.anime-info {
+    font-size: 0.9rem;
+    color: #4a5568;
+    margin-bottom: 5px;
+}
+
+.anime-card-footer {
+    padding: 15px;
+    background-color: #f7fafc;
+    text-align: center;
+}
+
+.mal-link {
+    display: inline-block;
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.mal-link:hover {
+    background-color: #2c7a7b;
+}
+
+/* --- Loader et Messages d'erreur --- */
+#loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #e2e8f0;
+    border-top: 5px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 50px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error-box {
+    background-color: #fff5f5;
+    color: #c53030;
+    border: 1px solid #fed7d7;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+/* --- Pied de page --- */
+footer {
+    background-color: #e2e8f0;
+    color: #4a5568;
+    text-align: center;
+    padding: 25px 0;
+    margin-top: 40px;
+}

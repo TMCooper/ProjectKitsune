@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import requests
 from src.backend import Cardinal
 
@@ -94,3 +94,40 @@ class Yui:
         results = Cardinal.NameFinder(anime_ids)
 
         return jsonify(results)
+    
+    @app.route('/api/getCurrentOut', methods=["GET"]) # regarde quoi sort quand et a quel heur en fonction du jour choisit
+    def getCurrentOut():
+        day = request.args.get("day", "").strip().lower()
+        
+        if not day:
+            return jsonify({"error": "Paramètre 'day' manquant"}), 400
+        
+        results = Cardinal.getCurrentOut(day)
+
+        return jsonify(results)
+
+    
+    @app.route('/api/getSeasonOut', methods=["GET"]) # même principe que /api/getCurrentOut mais cette fois avec un system de saison d'année et de typage
+    def getSeasonOut():
+        year = request.args.get("y", "").strip()
+        seasons = request.args.get("seasons", "").strip().lower()
+        typage = request.args.get("typage", "").strip().lower()
+
+        if not seasons:
+            return jsonify({"error": "Paramètre 'seasons' manquant"}), 400
+        if not year:
+            return jsonify({"error": "Paramètre 'year' manquant"}), 400
+        
+        #typage disponible par défaut il est sur tv : "tv" "movie" "ova" "special" "ona" "music"
+        
+        results = Cardinal.getSeasons(seasons, year, typage )
+
+        return jsonify(results)
+    
+    @app.route('/home/seasonsRender')
+    def seasonsRender():
+        return render_template('indexSeasons.html')
+    
+    @app.route('/home/DailyAnime')
+    def DailyAnimeRender():
+        return render_template('indexDailyAnime.html')

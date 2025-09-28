@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planning des Animés du Jour</title>
+    <link rel="stylesheet" href="../static/indexDailyAnime.css">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>📅 Planning des Animés du Jour</h1>
+            <p>Découvrez les sorties de la journée en un clin d'œil.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="form-section">
+            <form id="dayForm">
+                <label for="day">Choisir un jour :</label>
+                <div class="select-container">
+                    <select id="day" name="day">
+                        <option value="lundi">Lundi</option>
+                        <option value="mardi">Mardi</option>
+                        <option value="mercredi">Mercredi</option>
+                        <option value="jeudi">Jeudi</option>
+                        <option value="vendredi">Vendredi</option>
+                        <option value="samedi">Samedi</option>
+                        <option value="dimanche">Dimanche</option>
+                    </select>
+                </div>
+                <button type="submit">Rechercher</button>
+            </form>
+        </section>
+
+        <section id="results-section">
+            <div id="loader" class="hidden"></div>
+            <div id="error" class="hidden error-box">
+                <p>❌ Une erreur est survenue. Veuillez réessayer.</p>
+            </div>
+            <div id="results" class="anime-grid">
+                <!-- Les cartes d'animés seront insérées ici -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Développé avec passion pour les fans d'animation.</p>
+        </div>
+    </footer>
+
+    <script src="../static/scripts/scriptDailyAnime.js"></script>
+</body>
+</html>
