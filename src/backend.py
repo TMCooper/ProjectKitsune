@@ -88,7 +88,7 @@ class Cardinal:
                     break
                 i += 1
 
-            time.sleep(0.7)  # limiter à ~60 req/minute
+            time.sleep(1)  # limiter à ~60 req/minute
 
         with open("AllAnimeId.json", "w", encoding="utf-8") as f:
             json.dump(anime_list, f, ensure_ascii=False, indent=4)
