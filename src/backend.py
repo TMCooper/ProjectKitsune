@@ -129,7 +129,6 @@ class Cardinal:
 
         temp_results = []
         
-        # La boucle DOIT accepter 3 valeurs. On ignore l'index avec `_`.
         for cleaned_title, score, _ in matches:
             if score < 75:
                 continue
