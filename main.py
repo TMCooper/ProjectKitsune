@@ -11,9 +11,7 @@ else:
 
 
 def main():
-    print(PATH)
-    print(PATH_ID)
-
+    
     if os.path.exists(PATH_ID): # Vérification si le fichier AllAnimeId.json est disponible si oui alors il lance l'api sinon il crée et remplit le fichier
         Yui.app.run(debug=True)
 
