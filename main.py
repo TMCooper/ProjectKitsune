@@ -1,6 +1,7 @@
-import os, json, platform
+import os, platform
 from src.api import Yui
 from src.backend import Cardinal
+from src.discordObserver import runChecker
 
 PATH = os.getcwd()
 
@@ -11,9 +12,10 @@ else:
 
 
 def main():
-    
+
     if os.path.exists(PATH_ID): # Vérification si le fichier AllAnimeId.json est disponible si oui alors il lance l'api sinon il crée et remplit le fichier
-        Yui.app.run(debug=True)
+        runChecker()
+        Yui.app.run(debug=True) 
 
     else:
         print("Fichier non trouvée... créeation...")

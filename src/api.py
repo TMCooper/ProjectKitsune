@@ -152,3 +152,8 @@ class Yui:
         translated_text = Cardinal.translate_text(text_to_translate, target_language)
 
         return jsonify({"translated_text": translated_text})
+    
+    @app.route('/api/Frieren')  
+    def getFrierenInfo():
+        result = Cardinal.getFrierenStatus()
+        return jsonify(result)

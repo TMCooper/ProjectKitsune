@@ -9,3 +9,5 @@ download_error.txt
 COOKIES_INSTRUCTIONS.txt
 search_error.txt
 playlist_results.html
+.env
+shared_files

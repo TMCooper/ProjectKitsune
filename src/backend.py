@@ -1,6 +1,8 @@
-import requests, json, time, re
+import requests, json, time, re, os
 from deep_translator import GoogleTranslator
 from rapidfuzz import process, fuzz
+from src.discordObserver import STATUS_FILE_PATH, TRIGGER_FILE_PATH
+
 
 class Cardinal:
     def topanime():
@@ -291,3 +293,33 @@ class Cardinal:
         except Exception as e:
             print(f"Erreur de traduction : {e}")
             return "La traduction a échoué."
+    
+    def getFrierenStatus():
+            try:
+                # On crée le fichier vide avec comme contenue "refresh_requested"
+                with open(TRIGGER_FILE_PATH, 'w') as f:
+                    f.write('refresh_requested')
+            except Exception as e:
+                return {"error": f"Impossible de demander le rafraîchissement : {e}"}
+
+            # 2. On attend que le bot ait fini
+            # On met un timeout pour pas bloquer l'API
+            timeout = 5.0 
+            start_time = time.time()
+            
+            while os.path.exists(TRIGGER_FILE_PATH):
+                if time.time() - start_time > timeout:
+                    # Timeout atteint
+                    return {"error": "Le bot n'a pas répondu à temps (Timeout).", "status": "timeout"}
+                # On attend un tout petit peu avant de revérifier
+                time.sleep(0.1)
+
+            # Si on sort de la boucle c'est que le trigger n'existe plus et donc que le bot a fini puis on lit le fichier.
+            try:
+                with open(STATUS_FILE_PATH, 'r', encoding='utf-8') as f:
+                    status_data = json.load(f)
+                return status_data
+            except FileNotFoundError:
+                return {"error": "Fichier de statut introuvable (le bot n'a peut-être pas encore démarré)."}
+            except Exception as e:
+                return {"error": f"Erreur de lecture du résultat : {e}"}
