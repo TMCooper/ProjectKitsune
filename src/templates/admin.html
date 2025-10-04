@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - Yui API</title>
+    <link rel="stylesheet" href="../static/css/shared.css">
+    <link rel="stylesheet" href="../static/css/admin.css">
+</head>
+<body>
+
+    <!-- CONTENEUR 1 : LA PORTE D'ENTRÉE -->
+    <div id="password-gate">
+        <div class="gate-container">
+            <a href="/home" class="nav-brand">Yui API</a>
+            <h2>Accès Administrateur</h2>
+            <form id="password-form">
+                <input type="password" id="admin-password" placeholder="Mot de passe" required autocomplete="current-password">
+                <button type="submit">Connexion</button>
+            </form>
+            <p id="password-error" class="hidden">Mot de passe incorrect.</p>
+        </div>
+    </div>
+
+    <!-- CONTENEUR 2 : LE SITE COMPLET (initialement caché) -->
+    <div id="site-wrapper" class="hidden">
+        <nav class="navbar">
+            <div class="container nav-container">
+                <a href="/home" class="nav-brand">Yui API</a>
+                <ul class="nav-menu">
+                    <li><a href="/home" class="nav-link">Accueil</a></li>
+                    <li><a href="/home/DailyAnime" class="nav-link">Planning</a></li>
+                    <li><a href="/home/seasonsRender" class="nav-link">Saisons</a></li>
+                    <li><a href="/home/search" class="nav-link">Recherche</a></li>
+                    <li><a href="/home/admin" class="nav-link active">Admin</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <header>
+            <h1>⚙️ Panneau d'Administration</h1>
+            <p>Gestion et monitoring du projet.</p>
+        </header>
+
+        <main class="container" id="admin-content">
+            <!-- Section Statut du Bot -->
+            <section class="admin-section">
+                <h2>🤖 Statut du Bot Discord (Frieren)</h2>
+                <div id="bot-status-container" class="placeholder">
+                    <p>Cliquez sur le bouton pour rafraîchir le statut.</p>
+                </div>
+                <button id="refresh-bot-status">Rafraîchir le Statut</button>
+            </section>
+
+            <!-- Section Mise à jour du site -->
+            <section class="admin-section">
+                <h2>🔄 Mise à Jour du Site (Git Pull)</h2>
+                <p>Cette action exécute la commande `git pull` sur le serveur pour mettre à jour l'application.</p>
+                <button id="update-site-btn">Lancer la mise à jour</button>
+                <h3>Résultat :</h3>
+                <div class="terminal">
+                    <pre id="update-output">Le résultat de la commande s'affichera ici...</pre>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="container">
+                 <p>Projet développé pour les passionnés d'animation. | <a href="https://github.com/TMCooper/ProjectKitsune" target="_blank" rel="noopener noreferrer">Voir le projet sur GitHub</a></p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../static/scripts/scriptAdmin.js"></script>
+</body>
+</html>

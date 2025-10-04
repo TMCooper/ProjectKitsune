@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request, render_template
-import requests
+import requests, os, subprocess
 from src.backend import Cardinal
+
+ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD')
 
 class Yui:
     app = Flask(__name__)
@@ -157,3 +159,44 @@ class Yui:
     def getFrierenInfo():
         result = Cardinal.getFrierenStatus()
         return jsonify(result)
+    
+    @app.route('/home/admin')
+    def adminRender():
+        return render_template('admin.html')
+
+    @app.route('/admin/verify', methods=['POST'])
+    def verify_password():
+        data = request.get_json()
+        password = data.get('password')
+        if password == ADMIN_PASSWORD:
+            return jsonify({"success": True})
+        else:
+            return jsonify({"success": False}), 401
+
+    @app.route('/admin/update', methods=['POST'])
+    def update_site():
+        data = request.get_json()
+        password = data.get('password')
+
+        if not password or password != ADMIN_PASSWORD:
+            return jsonify({"error": "Mot de passe invalide ou manquant."}), 403
+
+        try:
+            # Exécute la commande `git pull` et capture la sortie
+            result = subprocess.run(
+                ['git', 'pull'],
+                capture_output=True,
+                text=True,
+                check=True # Lève une exception si la commande échoue
+            )
+            output = result.stdout + "\n" + result.stderr
+            return jsonify({"output": f"Mise à jour réussie !\n\n{output}"})
+
+        except FileNotFoundError:
+            return jsonify({"error": "La commande 'git' n'a pas été trouvée. Git est-il installé sur le serveur ?"}), 500
+        except subprocess.CalledProcessError as e:
+            # En cas d'échec de la commande (ex: conflits)
+            output = e.stdout + "\n" + e.stderr
+            return jsonify({"error": f"La commande git a échoué.\n\n{output}"}), 500
+        except Exception as e:
+            return jsonify({"error": f"Une erreur inattendue est survenue : {str(e)}"}), 500

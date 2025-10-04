@@ -33,34 +33,22 @@ async def perform_update():
     else:
         found = False
         for guild in client.guilds:
-            try:
-                # On utilise fetch_member pour avoir les données les plus FRAÎCHES possibles
-                member = await guild.fetch_member(TARGET_BOT_ID)
-                if member:
-                    target_member = member
-                    found = True
-                    break # Trouvé sur un serveur, pas besoin de chercher ailleurs
-            except discord.NotFound:
-                continue
-            except Exception as e:
-                print(f"Erreur lors du fetch sur {guild.name}: {e}")
+            target_member = discord.utils.get(guild.members, id=TARGET_BOT_ID)
+            if target_member:
+                found = True
+                break
         
-        if not found:
-             status_data = {"error": "Bot cible introuvable.", "id": TARGET_BOT_ID, "status": "not_found"}
-        else:
-            user_profile = await client.fetch_user(target_member.id)
-
-            # Astuce : on ajoute un timestamp unique pour que l'API détecte le changement
-            status_data = {
-                "id": target_member.id,
-                "username": target_member.name,
-                "status": str(target_member.status),
-                "avatar": str(target_member.avatar.url) if target_member.avatar else None,
-                "banner": str(user_profile.banner.url) if user_profile.banner else None,
-                "last_updated": time.time() # Timestamp actuel
-            }
-
-    # Écriture du résultat
+    if found:
+        user_profile = await client.fetch_user(target_member.id)
+        status_data = {
+            "id": target_member.id,
+            "username": target_member.name,
+            "status": str(target_member.status),  # ← maintenant correct
+            "avatar": str(target_member.avatar.url) if target_member.avatar else None,
+            "banner": str(user_profile.banner.url) if user_profile.banner else None,
+            "last_updated": time.time()
+        }
+        # Écriture du résultat
     try:
         # On écrit d'abord dans un fichier temporaire puis on renomme pour éviter une lecture partielle
         temp_path = STATUS_FILE_PATH + ".tmp"
@@ -70,7 +58,6 @@ async def perform_update():
     except Exception as e:
         print(f"Erreur écriture JSON: {e}")
 
-# --- LA NOUVELLE TÂCHE DE SURVEILLANCE ---
 async def trigger_watcher_task():
     await client.wait_until_ready()
     print("Le bot écoute les demandes de rafraîchissement...")
