@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation API - Yui</title>
+    <link rel="stylesheet" href="../static/css/shared.css">
+    <link rel="stylesheet" href="../static/css/documentation.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="/home" class="nav-brand">Yui API</a>
+            <ul class="nav-menu">
+                <li><a href="/home" class="nav-link">Accueil</a></li>
+                <li><a href="/home/DailyAnime" class="nav-link">Planning</a></li>
+                <li><a href="/home/seasonsRender" class="nav-link">Saisons</a></li>
+                <li><a href="/home/search" class="nav-link">Recherche</a></li>
+                <li><a href="/home/documentation" class="nav-link active">Documentation</a></li>
+                <li><a href="/home/admin" class="nav-link">Admin</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header>
+        <h1>📖 Documentation de l'API</h1>
+        <p>Guide complet pour interagir avec l'API Yui.</p>
+    </header>
+
+    <main class="container">
+        <div class="doc-layout">
+            <!-- ========== BARRE DE NAVIGATION (OVERVIEW) ========== -->
+            <aside id="doc-nav">
+                <h3>Navigation</h3>
+                <ul>
+                    <li><a href="#section-core" class="active">Données d'Animés</a></li>
+                    <li><a href="#section-time">Données Temporelles</a></li>
+                    <li><a href="#section-user">Données Utilisateur</a></li>
+                    <li><a href="#section-utils">Utilitaires</a></li>
+                    <li><a href="#section-admin">Administration</a></li>
+                    <li><a href="#section-internal">Endpoints Internes</a></li>
+                </ul>
+            </aside>
+
+            <!-- ========== CONTENU DE LA DOCUMENTATION ========== -->
+            <div id="doc-content">
+
+                <!-- ========== SECTION 1: DONNÉES D'ANIMÉS ========== -->
+                <section id="section-core" class="api-section">
+                    <h2>Données d'Animés</h2>
+
+                    <div id="endpoint-topanime" class="endpoint">
+                        <div class="endpoint-header"><span class="method get">GET</span><span class="path">/api/topanime</span></div>
+                        <p>Récupère une liste des animés les mieux classés selon les données de Jikan API.</p>
+                    </div>
+
+                    <div id="endpoint-getinfo" class="endpoint">
+                        <div class="endpoint-header"><span class="method get">GET</span><span class="path">/api/getinfoByid</span></div>
+                        <p>Récupère un ensemble complet d'informations pour un animé spécifique via son ID MyAnimeList.</p>
+                        <h4 class="endpoint-subtitle">Paramètres</h4>
+                        <table><thead><tr><th>Nom</th><th>Type</th><th>Requis</th><th>Description</th></tr></thead><tbody><tr><td><code>id</code></td><td>Entier</td><td>Oui</td><td>L'ID unique de l'animé sur MyAnimeList.</td></tr></tbody></table>
+                        <h4 class="endpoint-subtitle">Exemple de Requête</h4><pre><code>/api/getinfoByid?id=52991</code></pre>
+                        <h4 class="endpoint-subtitle">Réponse (200 OK)</h4><pre><code>{
+    "anime_url": "https://myanimelist.net/anime/52991/Sousou_no_Frieren",
+    "title": "Sousou no Frieren",
+    "title_english": "Frieren: Beyond Journey's End",
+    "episodes_number": 28,
+    "status": "Finished Airing",
+    "age_restriction": "PG-13 - Teens 13 or older",
+    "rank": 1,
+    "synopsis": "The story follows the elven mage Frieren...",
+    "studios_name": ["Madhouse"],
+    "genres_name": ["Adventure", "Drama", "Fantasy"],
+    "image_jpg_big": "https://cdn.myanimelist.net/images/anime/1015/138006l.jpg"
+}</code></pre>
+                        <h4 class="endpoint-subtitle">Réponse d'Erreur (400 Bad Request)</h4><pre><code>{"error": "Paramètre 'id' manquant"}</code></pre>
+                    </div>
+
+                    <div id="endpoint-search" class="endpoint">
+                        <div class="endpoint-header"><span class="method get">GET</span><span class="path">/api/getAnimeSearch</span></div>
+                        <p>Effectue une recherche "floue" (fuzzy search) pour trouver des animés correspondant à une chaîne de caractères. Le tri est optimisé pour la pertinence.</p>
+                        <h4 class="endpoint-subtitle">Paramètres</h4>
+                        <table><thead><tr><th>Nom</th><th>Type</th><th>Requis</th><th>Description</th></tr></thead><tbody><tr><td><code>q</code></td><td>Chaîne</td><td>Oui</td><td>Le terme de recherche.</td></tr><tr><td><code>l</code></td><td>Entier</td><td>Non</td><td>Limite le nombre de résultats. Défaut : 5.</td></tr></tbody></table>
+                        <h4 class="endpoint-subtitle">Exemple de Requête</h4><pre><code>/api/getAnimeSearch?q=Frieren&l=3</code></pre>
+                        <h4 class="endpoint-subtitle">Réponse (200 OK)</h4><pre><code>[
+    {
+        "id": 52991,
+        "image_jpg": "https://cdn.myanimelist.net/images/anime/1015/138006.jpg",
+        "score": 105.55,
+        "title": "Sousou no Frieren"
+    },
+    ...
+]</code></pre>
+                    </div>
+
+                    <div id="endpoint-nametoinfo" class="endpoint">
+                        <div class="endpoint-header"><span class="method get">GET</span><span class="path">/api/getAnimeNameToInfo</span></div>
+                        <p>Un endpoint de commodité qui effectue une recherche et retourne directement les informations complètes du premier résultat.</p>
+                        <h4 class="endpoint-subtitle">Paramètres</h4>
+                        <table><thead><tr><th>Nom</th><th>Type</th><th>Requis</th><th>Description</th></tr></thead><tbody><tr><td><code>q</code></td><td>Chaîne</td><td>Oui</td><td>Le nom de l'animé à rechercher.</td></tr></tbody></table>
+                        <h4 class="endpoint-subtitle">Exemple de Requête</h4><pre><code>/api/getAnimeNameToInfo?q=Steins;Gate</code></pre>
+                    </div>
+                </section>
+
+                <!-- ========== SECTION 2: DONNÉES TEMPORELLES ========== -->
+                <section id="section-time" class="api-section">
+                    <h2>Données Temporelles</h2>
+                    
+                    <div id="endpoint-currentout" class="endpoint">
+                        <div class="endpoint-header"><span class="method get">GET</span><span class="path">/api/getCurrentOut</span></div>
+                        <p>Liste les animés diffusés un jour spécifique de la semaine.</p>
+                        <h4 class="endpoint-subtitle">Paramètres</h4>
+                        <table><thead><tr><th>Nom</th><th>Type</th><th>Requis</th><th>Description</th></tr></thead><tbody><tr><td><code>day</code></td><td>Chaîne</td><td>Oui</td><td>Jour de la semaine en français et minuscules (<code>lundi</code>, <code>mardi</code>...).</td></tr></tbody></table>
+                        <h4 class="endpoint-subtitle">Exemple de Requête</h4><pre><code>/api/getCurrentOut?day=vendredi</code></pre>
+                    </div>
+
+                    <div id="endpoint-seasonout" class="endpoint">
+                        <div class="endpoint-header"><span class="method get">GET</span><span class="path">/api/getSeasonOut</span></div>
+                        <p>Récupère la liste des animés pour une saison, une année et un type donnés.</p>
+                        <h4 class="endpoint-subtitle">Paramètres</h4>
+                        <table><thead><tr><th>Nom</th><th>Type</th><th>Requis</th><th>Description</th></tr></thead><tbody><tr><td><code>y</code></td><td>Entier</td><td>Oui</td><td>Année de diffusion (ex: <code>2023</code>).</td></tr><tr><td><code>seasons</code></td><td>Chaîne</td><td>Oui</td><td>Saison en français (<code>printemps</code>, <code>ete</code>, <code>automne</code>, <code>hiver</code>).</td></tr><tr><td><code>typage</code></td><td>Chaîne</td><td>Non</td><td>Type d'animé (<code>tv</code>, <code>movie</code>, <code>ova</code>...). Défaut : <code>tv</code>.</td></tr></tbody></table>
+                        <h4 class="endpoint-subtitle">Exemple de Requête</h4><pre><code>/api/getSeasonOut?y=2023&seasons=automne&typage=tv</code></pre>
+                    </div>
+                </section>
+
+                <!-- ========== SECTION 3: DONNÉES UTILISATEUR ========== -->
+                <section id="section-user" class="api-section">
+                    <h2>Données Utilisateur</h2>
+
+                    <div id="endpoint-userlist" class="endpoint">
+                        <div class="endpoint-header"><span class="method get">GET</span><span class="path">/api/getUserList</span></div>
+                        <p>Récupère la liste d'animés d'un utilisateur MyAnimeList en fonction d'un statut.</p>
+                        <h4 class="endpoint-subtitle">Paramètres</h4>
+                        <table><thead><tr><th>Nom</th><th>Type</th><th>Requis</th><th>Description</th></tr></thead><tbody><tr><td><code>u</code></td><td>Chaîne</td><td>Oui</td><td>Pseudonyme de l'utilisateur MyAnimeList.</td></tr><tr><td><code>s</code></td><td>Entier</td><td>Non</td><td>Statut des animés à filtrer. Défaut : <code>2</code>.</td></tr></tbody></table>
+                        <h4 class="endpoint-subtitle">Valeurs possibles pour le statut (<code>s</code>)</h4>
+                        <ul>
+                            <li><code>1</code>: Watching</li>
+                            <li><code>2</code>: Completed (Défaut)</li>
+                            <li><code>3</code>: On-Hold</li>
+                            <li><code>4</code>: Dropped</li>
+                            <li><code>6</code>: Plan to Watch</li>
+                            <li><code>7</code>: All Anime</li>
+                        </ul>
+                        <h4 class="endpoint-subtitle">Exemple de Requête</h4><pre><code>/api/getUserList?u=TMCooper&s=1</code></pre>
+                    </div>
+                </section>
+
+                <!-- ========== SECTION 4: UTILITAIRES ========== -->
+                <section id="section-utils" class="api-section">
+                    <h2>Utilitaires</h2>
+                    
+                    <div id="endpoint-botstatus" class="endpoint">
+                        <div class="endpoint-header"><span class="method get">GET</span><span class="path">/api/botStatus</span></div>
+                        <p>Déclenche une mise à jour et récupère le statut Discord du bot observé par <code>discordObserver.py</code>.</p>
+                        <h4 class="endpoint-subtitle">Réponse (200 OK)</h4>
+                        <pre><code>{
+    "id": 123456789012345678,
+    "username": "NomDuBot",
+    "status": "online",
+    "avatar": "https://cdn.discordapp.com/...",
+    "banner": null,
+    "last_updated": 1678886400.0
+}</code></pre>
+                        <h4 class="endpoint-subtitle">Réponse d'Erreur (Timeout)</h4>
+                        <pre><code>{"error": "Le bot n'a pas répondu à temps (Timeout).", "status": "timeout"}</code></pre>
+                    </div>
+
+                    <div id="endpoint-translate" class="endpoint">
+                        <div class="endpoint-header"><span class="method post">POST</span><span class="path">/api/translate</span></div>
+                        <p>Traduit un bloc de texte vers une langue cible en utilisant Google Translator.</p>
+                        <h4 class="endpoint-subtitle">Corps de la Requête (JSON)</h4>
+                        <table><thead><tr><th>Clé</th><th>Type</th><th>Requis</th><th>Description</th></tr></thead><tbody><tr><td><code>text</code></td><td>Chaîne</td><td>Oui</td><td>Le texte à traduire.</td></tr><tr><td><code>target</code></td><td>Chaîne</td><td>Non</td><td>Code langue (ex: <code>'fr'</code>, <code>'en'</code>). Défaut : <code>'fr'</code>.</td></tr></tbody></table>
+                        <h4 class="endpoint-subtitle">Exemple de Corps de Requête</h4><pre><code>{
+    "text": "To be, or not to be, that is the question.",
+    "target": "fr"
+}</code></pre>
+                        <h4 class="endpoint-subtitle">Réponse (200 OK)</h4><pre><code>{"translated_text": "Être ou ne pas être, telle est la question."}</code></pre>
+                    </div>
+                </section>
+
+                <!-- ========== SECTION 5: ADMINISTRATION ========== -->
+                <section id="section-admin" class="api-section">
+                    <h2>Administration</h2>
+                    
+                    <div id="endpoint-verify" class="endpoint">
+                        <div class="endpoint-header"><span class="method post">POST</span><span class="path">/admin/verify</span></div>
+                        <p>Vérifie la validité d'un mot de passe administrateur. Utilisé pour déverrouiller la page Admin.</p>
+                    </div>
+
+                    <div id="endpoint-update" class="endpoint">
+                        <div class="endpoint-header"><span class="method post">POST</span><span class="path">/admin/update</span></div>
+                        <p>Exécute une commande <code>git pull</code> sur le serveur pour mettre à jour le site, à condition que le mot de passe admin soit correct.</p>
+                    </div>
+                </section>
+
+                <!-- ========== SECTION 6: ENDPOINTS INTERNES ========== -->
+                <section id="section-internal" class="api-section">
+                    <h2>Endpoints Internes</h2>
+
+                    <div id="endpoint-searchall" class="endpoint">
+                        <div class="endpoint-header"><span class="method get">GET</span><span class="path">/api/animeSearchAll</span></div>
+                        <p>Retourne l'intégralité du fichier <code>AllAnimeId.json</code>. Cet endpoint est principalement utilisé en interne par la fonction de recherche <code>/api/getAnimeSearch</code> pour éviter de lire le fichier disque à chaque requête.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Projet développé pour les passionnés d'animation. | <a href="https://github.com/TMCooper/ProjectKitsune" target="_blank" rel="noopener noreferrer">Voir le projet sur GitHub</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Script pour la navigation latérale active au défilement
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.api-section');
+            const navLinks = document.querySelectorAll('#doc-nav li a');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: "-50% 0px -50% 0px" });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+</body>
+</html>

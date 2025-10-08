@@ -142,6 +142,10 @@ class Yui:
     def searchRender():
         return render_template('search.html')
     
+    @app.route('/home/documentation')
+    def documentationRender():
+        return render_template('documentation.html')
+    
     @app.route('/api/translate', methods=['POST'])
     def translate_text_route():
         data = request.get_json()
@@ -155,8 +159,8 @@ class Yui:
 
         return jsonify({"translated_text": translated_text})
     
-    @app.route('/api/Frieren')  
-    def getFrierenInfo():
+    @app.route('/api/botStatus')  
+    def getBotStatus():
         result = Cardinal.getFrierenStatus()
         return jsonify(result)
     
