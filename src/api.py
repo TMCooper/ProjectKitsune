@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, render_template
-import requests, os, subprocess
+import requests, os, subprocess, shutil 
 from src.backend import Cardinal
 
 ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD')
@@ -186,9 +186,16 @@ class Yui:
             return jsonify({"error": "Mot de passe invalide ou manquant."}), 403
 
         try:
-            # Exécute la commande `git pull` et capture la sortie
+            # ✅ SOLUTION : Remplacez 'git' par le chemin complet que vous avez trouvé
+            # Exemple si la commande 'which git' a renvoyé /usr/bin/git
+            git_executable = shutil.which('git')
+
+            if not git_executable:
+                return jsonify({"error": "La commande 'git' n'a pas été trouvée dans le PATH du serveur."}), 500
+
+            # Exécute la commande `git pull` avec le chemin complet
             result = subprocess.run(
-                ['git', 'pull', 'origin', 'main'],
+                [git_executable, 'pull', 'origin', 'main'], # Utilisez la variable ici
                 capture_output=True,
                 text=True,
                 check=True # Lève une exception si la commande échoue
