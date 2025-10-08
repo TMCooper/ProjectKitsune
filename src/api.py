@@ -186,8 +186,7 @@ class Yui:
             return jsonify({"error": "Mot de passe invalide ou manquant."}), 403
 
         try:
-            # ✅ SOLUTION : Remplacez 'git' par le chemin complet que vous avez trouvé
-            # Exemple si la commande 'which git' a renvoyé /usr/bin/git
+            # Ajouter une fonction pour gerer windows aussi et déplacer toute la logique chez Cardinal
             git_executable = shutil.which('git')
 
             if not git_executable:
