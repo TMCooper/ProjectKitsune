@@ -188,7 +188,7 @@ class Yui:
         try:
             # Exécute la commande `git pull` et capture la sortie
             result = subprocess.run(
-                ['git', 'pull'],
+                ['git', 'pull', 'origin', 'main'],
                 capture_output=True,
                 text=True,
                 check=True # Lève une exception si la commande échoue
