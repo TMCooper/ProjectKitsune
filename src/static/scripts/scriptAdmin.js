@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         botStatusContainer.classList.remove('placeholder');
 
         try {
-            const response = await fetch('/api/Frieren');
+            const response = await fetch('/api/botStatus');
             const data = await response.json();
             if (data.error) throw new Error(data.error);
             displayBotStatus(data);
