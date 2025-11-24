@@ -3,30 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administration - Yui API</title>
+    <title>YUI SYSTEM :: ADMIN</title>
     <link rel="stylesheet" href="../static/css/shared.css">
     <link rel="stylesheet" href="../static/css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
 </head>
-<body>
+<body class="classic-mode"> 
 
-    <!-- CONTENEUR 1 : LA PORTE D'ENTRÉE -->
+    <!-- LOGIN GATE -->
     <div id="password-gate">
-        <div class="gate-container">
-            <a href="/home" class="nav-brand">Yui API</a>
-            <h2>Accès Administrateur</h2>
+        <div class="gate-content">
+            <h1 class="system-title">YUI <span class="hollow">ADMIN</span></h1>
             <form id="password-form">
-                <input type="password" id="admin-password" placeholder="Mot de passe" required autocomplete="current-password">
-                <button type="submit">Connexion</button>
+                <input type="password" id="admin-password" placeholder="ACCESS KEY" autocomplete="off">
+                <button type="submit">UNLOCK</button>
             </form>
-            <p id="password-error" class="hidden">Mot de passe incorrect.</p>
+            <div id="password-error" class="error-msg hidden">ACCESS DENIED</div>
         </div>
     </div>
 
-    <!-- CONTENEUR 2 : LE SITE COMPLET (initialement caché) -->
-    <div id="site-wrapper" class="hidden">
+    <!-- SWITCH BTN -->
+    <div id="mode-switcher" class="hidden">
+        <button id="switch-btn">MODE: <span id="current-mode-text">CLASSIC</span></button>
+    </div>
+
+    <!-- CYBER INTERFACE (Cachée) -->
+    <div id="cyber-interface" class="hidden">
+        <div id="canvas-container"></div>
+        <div id="ui-layer">
+            <div class="top-bar">
+                <div class="sys-status">SYSTEM: <span style="color:#0f0">ONLINE</span></div>
+                <div class="sys-time" id="clock">--:--</div>
+            </div>
+            <div id="panel-bot" class="cyber-window draggable" style="top: 20%; left: 5%;">
+                <div class="window-header drag-handle"><span>🔹 NEURAL LINK</span><div class="win-controls"><span class="close-win">✖</span></div></div>
+                <div class="window-body">
+                    <div id="cyber-bot-container" class="loader-box"><p>AWAITING SIGNAL...</p></div>
+                    <button id="cyber-refresh-bot" class="cyber-btn">SCAN NETWORK</button>
+                </div>
+            </div>
+            <div id="panel-git" class="cyber-window draggable" style="top: 20%; right: 5%;">
+                <div class="window-header drag-handle"><span>🔸 SYSTEM UPDATE</span><div class="win-controls"><span class="close-win">✖</span></div></div>
+                <div class="window-body">
+                    <div class="terminal"><pre id="cyber-update-output">root@core:~# ready</pre></div>
+                    <button id="cyber-update-btn" class="cyber-btn danger">INITIATE PULL</button>
+                </div>
+            </div>
+            <div class="bottom-dock">
+                <button class="dock-action" data-target="panel-bot">BOT</button>
+                <button class="dock-action" data-target="panel-git">TERMINAL</button>
+                <button id="reset-cam-btn">RESET CAM</button>
+                <a href="/home" class="exit-btn">EXIT</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLASSIQUE INTERFACE (Visible) -->
+    <div id="classic-interface" class="hidden">
         <nav class="navbar">
             <div class="container nav-container">
                 <a href="/home" class="nav-brand">Yui API</a>
+                <!-- MENU COMPLET RÉTABLI ICI -->
                 <ul class="nav-menu">
                     <li><a href="/home" class="nav-link">Accueil</a></li>
                     <li><a href="/home/DailyAnime" class="nav-link">Planning</a></li>
@@ -37,40 +83,32 @@
             </div>
         </nav>
 
-        <header>
+        <header class="classic-header">
             <h1>⚙️ Panneau d'Administration</h1>
             <p>Gestion et monitoring du projet.</p>
         </header>
 
-        <main class="container" id="admin-content">
-            <!-- Section Statut du Bot -->
+        <main class="container">
             <section class="admin-section">
-                <h2>🤖 Statut du Bot Discord (Frieren)</h2>
-                <div id="bot-status-container" class="placeholder">
-                    <p>Cliquez sur le bouton pour rafraîchir le statut.</p>
+                <h2>🤖 Statut du Bot Discord</h2>
+                <div id="classic-bot-container" class="placeholder">
+                    <p>Cliquez pour rafraîchir.</p>
                 </div>
-                <button id="refresh-bot-status">Rafraîchir le Statut</button>
+                <button id="classic-refresh-bot" class="classic-btn">Rafraîchir le Statut</button>
             </section>
 
-            <!-- Section Mise à jour du site -->
             <section class="admin-section">
-                <h2>🔄 Mise à Jour du Site (Git Pull)</h2>
-                <p>Cette action exécute la commande `git pull` sur le serveur pour mettre à jour l'application.</p>
-                <button id="update-site-btn">Lancer la mise à jour</button>
+                <h2>🔄 Mise à Jour du Site</h2>
+                <p>Exécuter `git pull` sur le serveur.</p>
+                <button id="classic-update-btn" class="classic-btn">Lancer la mise à jour</button>
                 <h3>Résultat :</h3>
-                <div class="terminal">
-                    <pre id="update-output">Le résultat de la commande s'affichera ici...</pre>
+                <div class="terminal classic-term">
+                    <pre id="classic-update-output">En attente...</pre>
                 </div>
             </section>
         </main>
-
-        <footer>
-            <div class="container">
-                 <p>Projet développé pour les passionnés d'animation. | <a href="https://github.com/TMCooper/ProjectKitsune" target="_blank" rel="noopener noreferrer">Voir le projet sur GitHub</a></p>
-            </div>
-        </footer>
     </div>
 
-    <script src="../static/scripts/scriptAdmin.js"></script>
+    <script type="module" src="../static/scripts/scriptAdmin.js"></script>
 </body>
 </html>

@@ -1,201 +1,127 @@
-/* --- Porte de mot de passe en plein écran --- */
-#password-gate {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--background-color);
-    z-index: 2000;
-    transition: opacity 0.3s ease-in-out;
+/* --- VARIABLES --- */
+:root {
+    --cyan: #00f3ff;
+    --bg-glass: rgba(5, 10, 20, 0.65);
+    --font-main: 'Rajdhani', sans-serif;
+    --font-header: 'Orbitron', sans-serif;
 }
 
-#password-gate.fade-out {
-    opacity: 0;
-    pointer-events: none;
+.hidden { display: none !important; }
+
+/* --- SWITCH BTN --- */
+#mode-switcher { position: fixed; top: 20px; right: 20px; z-index: 9999; }
+#switch-btn {
+    background: rgba(0,0,0,0.8); border: 1px solid var(--cyan); color: var(--cyan);
+    padding: 8px 15px; cursor: pointer; font-family: var(--font-header);
+    backdrop-filter: blur(5px); transition: 0.3s;
 }
+#switch-btn:hover { background: var(--cyan); color: black; }
 
-.gate-container {
-    background-color: var(--card-bg-color);
-    padding: 40px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    text-align: center;
-    max-width: 400px;
-    width: 90%;
-}
+/* --- MODE CYBER --- */
+body.cyber-body { margin: 0; overflow: hidden; background-color: #000; color: var(--cyan); font-family: var(--font-main); }
+#canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+#ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; pointer-events: none; }
+#password-gate { position: fixed; inset: 0; z-index: 10000; background: black; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s; }
+.gate-content { text-align: center; border: 1px solid var(--cyan); padding: 50px; background: rgba(0,0,0,0.9); box-shadow: 0 0 30px rgba(0, 243, 255, 0.2); }
+.gate-content input { background: transparent; border: 1px solid #333; border-bottom: 2px solid var(--cyan); color: white; padding: 10px; text-align: center; margin-bottom: 20px; width: 200px; }
+.gate-content button { background: var(--cyan); border: none; padding: 10px 30px; font-weight: bold; cursor: pointer; }
 
-.gate-container .nav-brand {
-    font-size: 1.8rem;
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 700;
-    margin-bottom: 10px;
-    display: block;
-}
+/* Cyber Windows */
+.cyber-window { position: absolute; width: 400px; background: var(--bg-glass); border: 1px solid var(--cyan); backdrop-filter: blur(6px); pointer-events: auto; display: flex; flex-direction: column; box-shadow: 0 0 15px rgba(0, 243, 255, 0.1); }
+.window-header { background: rgba(0, 243, 255, 0.1); padding: 10px; cursor: grab; display: flex; justify-content: space-between; font-family: var(--font-header); }
+.window-body { padding: 20px; }
+.cyber-btn { width: 100%; padding: 10px; background: transparent; border: 1px solid var(--cyan); color: var(--cyan); cursor: pointer; margin-top: 10px; transition: 0.2s; font-family: var(--font-header); }
+.cyber-btn:hover { background: var(--cyan); color: black; }
+.cyber-btn.danger { border-color: #ff0055; color: #ff0055; }
+.cyber-btn.danger:hover { background: #ff0055; color: white; }
+.terminal { background: rgba(0,0,0,0.8); color: #0f0; padding: 10px; height: 150px; overflow-y: auto; font-family: monospace; }
+.top-bar { position: absolute; top:0; left:0; width: 100%; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; pointer-events: auto; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); box-sizing: border-box; }
+.bottom-dock { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); pointer-events: auto; display: flex; gap: 10px; }
+.bottom-dock button, .exit-btn { background: rgba(0,0,0,0.6); border: 1px solid #555; color: #aaa; padding: 8px 15px; cursor: pointer; text-decoration: none; font-family: var(--font-header); font-size: 0.8rem; }
+.bottom-dock button:hover, .exit-btn:hover { border-color: var(--cyan); color: var(--cyan); }
 
-#password-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
-}
+/* --- MODE CLASSIQUE --- */
+body.classic-mode { background-color: #f4f7f9; color: #2c3e50; overflow-y: auto; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+body.classic-mode #switch-btn { background: white; border-color: #4854e0; color: #4854e0; }
 
-#admin-password {
-    padding: 12px;
-    font-size: 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-}
+.classic-header { background: linear-gradient(135deg, #4854e0, #6f7aff); color: white; padding: 40px 0; text-align: center; margin-bottom: 30px; }
+.admin-section { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 30px; }
+.classic-btn { background: #4854e0; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-top: 15px; }
+.classic-term { background: #2d3748; color: #f7fafc; padding: 20px; border-radius: 8px; min-height: 100px; }
 
-#password-form button {
-    background-color: var(--primary-color);
-    color: var(--light-text-color);
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.3s;
-}
-
-#password-form button:hover {
-    background-color: var(--primary-hover);
-}
-
-#password-error {
-    color: #c53030;
-    margin-top: 10px;
-}
-
-
-/* --- Sections Admin --- */
-.admin-section {
-    background-color: var(--card-bg-color);
-    padding: 30px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    margin-bottom: 30px;
-}
-
-.admin-section h2 {
-    margin-top: 0;
-    border-bottom: 2px solid var(--primary-color);
-    padding-bottom: 10px;
-}
-
-/* ... (tous les styles pour la carte du bot et le terminal sont identiques à la version précédente) ... */
-/* --- STYLE POUR LA CARTE PROFIL DU BOT --- */
-#bot-status-container.placeholder {
-    text-align: center;
-    color: #6a7c92;
-    padding: 40px;
-}
-
+/* --- CORRECTION DU DESIGN DE LA CARTE BOT CLASSIQUE --- */
 .bot-profile-card {
-    max-width: 600px;
-    background-color: var(--card-bg-color);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
     overflow: hidden;
-    position: relative;
+    border: 1px solid #e2e8f0;
 }
 
 .bot-banner img {
     width: 100%;
-    height: 180px;
+    height: 240px; /* Agrandissement pour voir plus du GIF */
     object-fit: cover;
+    display: block;
 }
 
-.bot-header {
+.bot-header-classic {
     display: flex;
-    align-items: flex-end;
-    padding: 0 20px 20px 20px;
-}
-
-.bot-avatar-wrapper {
+    align-items: flex-start; /* Aligne en haut du conteneur flex */
+    padding: 0 25px 25px 25px;
     position: relative;
-    margin-top: -50px;
+}
+
+.bot-avatar-wrapper-classic {
+    margin-top: -70px; /* Remonte l'avatar sur la bannière */
+    position: relative;
     flex-shrink: 0;
+    z-index: 2;
 }
 
-.bot-avatar-wrapper img {
-    width: 100px;
-    height: 100px;
+.bot-avatar-wrapper-classic img {
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
-    border: 5px solid var(--card-bg-color);
+    border: 6px solid white; /* Grosse bordure blanche */
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.bot-status-indicator {
+.bot-status-indicator-classic {
     position: absolute;
-    bottom: 5px;
-    right: 5px;
-    width: 25px;
-    height: 25px;
+    bottom: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
-    border: 4px solid var(--card-bg-color);
+    border: 5px solid white;
 }
+.bot-status-indicator-classic.online { background-color: #2ecc71; }
+.bot-status-indicator-classic.offline { background-color: #747f8d; }
 
-.bot-status-indicator.online { background-color: #2ecc71; }
-.bot-status-indicator.offline { background-color: #747f8d; }
-.bot-status-indicator.idle { background-color: #f1c40f; }
-.bot-status-indicator.dnd { background-color: #e74c3c; }
-
-
-.bot-names {
+.bot-names-classic {
+    margin-top: 15px; /* Descend le texte pour qu'il soit sur le blanc */
     margin-left: 20px;
-    padding-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.bot-username {
-    font-size: 1.8rem;
-    font-weight: 700;
+.bot-username-classic {
+    font-size: 2rem; /* Nom plus gros */
+    font-weight: 800;
     margin: 0;
+    color: #2d3748;
+    line-height: 1.2;
 }
 
-.bot-status-text {
+.bot-status-text-classic {
     font-weight: 600;
-    text-transform: capitalize;
+    font-size: 1rem;
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
-
-.bot-status-text.online { color: #2ecc71; }
-.bot-status-text.offline { color: #747f8d; }
-.bot-status-text.idle { color: #f1c40f; }
-.bot-status-text.dnd { color: #e74c3c; }
-
-
-#refresh-bot-status, #update-site-btn {
-    margin-top: 15px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.3s;
-}
-
-#refresh-bot-status:hover, #update-site-btn:hover {
-    background-color: var(--primary-hover);
-}
-#refresh-bot-status:disabled, #update-site-btn:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.terminal {
-    background-color: #2d3748;
-    color: #f7fafc;
-    border-radius: 8px;
-    padding: 20px;
-    margin-top: 15px;
-    font-family: 'Courier New', Courier, monospace;
-    max-height: 400px;
-    overflow-y: auto;
-    white-space: pre-wrap;
-    word-break: break-all;
-}
+.bot-status-text-classic.online { color: #2ecc71; }
+.bot-status-text-classic.offline { color: #747f8d; }

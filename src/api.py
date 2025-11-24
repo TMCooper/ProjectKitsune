@@ -186,7 +186,7 @@ class Yui:
             return jsonify({"error": "Mot de passe invalide ou manquant."}), 403
 
         try:
-            # Ajouter une fonction pour gerer windows aussi et déplacer toute la logique chez Cardinal
+            # Ajouter une fonction pour gerer windows aussi et déplacer toute la logique chez Cardinal et reparer le fait que sa marche toujours pas
             git_executable = shutil.which('git')
 
             if not git_executable:
